@@ -55,49 +55,53 @@
     </div>
   </div>
 
-  <!-- Modern player logic -->
-  <script>
-    let player;
+<!-- Modern player logic -->
+<script>
+  let player;
 
-    function onYouTubeIframeAPIReady() {
-      player = new YT.Player('player', {
-        videoId: "", // your queue engine will load the first video
-        playerVars: {
-          autoplay: 1,
-          controls: 1,
-          rel: 0,
-          modestbranding: 1
-        },
-        events: {
-          onReady: onPlayerReady,
-          onStateChange: onPlayerStateChange
-        }
-      });
-    }
-
-    function onPlayerReady() {
-      // Hook your queue engine here
-      // Example: loadFirstVideo();
-    }
-
-    function onPlayerStateChange(event) {
-      if (event.data === YT.PlayerState.ENDED) {
-        // Hook your queue engine here
-        // Example: loadNextVideo();
+  function onYouTubeIframeAPIReady() {
+    player = new YT.Player('player', {
+      videoId: "",
+      playerVars: {
+        autoplay: 1,
+        controls: 1,
+        rel: 0,
+        modestbranding: 1
+      },
+      events: {
+        onReady: onPlayerReady,
+        onStateChange: onPlayerStateChange
       }
-    }
+    });
+  }
 
-    function submitSearch() {
-      const q = document.getElementById("query").value;
-      // Hook your YouTube search + queue engine here
-      // Example: searchYouTube(q);
+  function onPlayerReady(event) {
+    if (window.queue && typeof window.queue.onPlayerReady === "function") {
+      window.queue.onPlayerReady(player);
     }
+  }
 
-    function toggleSearch() {
-      const form = document.getElementById("search");
-      form.style.display = (form.style.display === "none") ? "block" : "none";
+  function onPlayerStateChange(event) {
+    if (window.queue && typeof window.queue.onPlayerStateChange === "function") {
+      window.queue.onPlayerStateChange(player, event.data);
     }
-  </script>
+  }
+
+  function submitSearch() {
+    import('/javascripts/search.js').then(module => {
+      module.submitSearchFromUI();
+    });
+  }
+
+  function toggleSearch() {
+    const form = document.getElementById("search");
+    form.style.display = (form.style.display === "none") ? "block" : "none";
+  }
+</script>
+
+<script type="module" src="javascripts/player.js"></script>
+<script type="module" src="javascripts/queue.js"></script>
+<script type="module" src="javascripts/search.js"></script>
 
 </body>
 </html>
