@@ -1,29 +1,25 @@
 <!DOCTYPE html>
 <html>
-<body>
+<head>
+  <meta charset="utf-8">
+  <title>SHOW ME — Embed Player</title>
+  <script src="https://www.youtube.com/iframe_api"></script>
+</head>
 
-  <h1>SHOW ME embeds NONSTOP</h1>
+<body style="margin:0; background:#000;">
 
-  <iframe
-    src="http://showmenonstop.com/#music_videos"
-    width="600"
-    height="400"
-    border="0">
-  </iframe>
+  <div id="player" style="width:100vw; height:100vh;"></div>
 
-  <br />
+  <script>
+    var player;
 
-  <textarea
-    readonly="readonly"
-    onclick="this.select();"
-    style="
-      width: 600px;
-      height: 80px;
-      background-color: #ddd;
-      font-size: 13pt;
-    ">
-<iframe src="http://showmenonstop.com/#music_videos" width="600" height="400" border="0"></iframe>
-  </textarea>
+    function onYouTubeIframeAPIReady() {
+      player = new YT.Player('player', {
+        videoId: "dQw4w9WgXcQ", // placeholder
+        playerVars: { autoplay: 1, controls: 1, rel: 0, modestbranding: 1 }
+      });
+    }
+  </script>
 
 </body>
 </html>
