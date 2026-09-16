@@ -1,17 +1,16 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="utf-8">
   <title>SHOW ME x NON-STOP — continuously play cool videos</title>
-  <link rel="shortcut icon" href="/favicon.ico" />
+  <link rel="shortcut icon" href="/favicon.ico">
 
+  <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300"
-        rel="stylesheet"
-        type="text/css">
+        rel="stylesheet">
 
-  <link href="stylesheets/application.css?cachebuster=1316213979"
-        media="screen"
-        rel="stylesheet"
-        type="text/css">
+  <!-- Modern stylesheet -->
+  <link href="stylesheets/application.css" rel="stylesheet">
 
   <!-- YouTube IFrame API -->
   <script src="https://www.youtube.com/iframe_api"></script>
@@ -19,76 +18,50 @@
 
 <body>
 
-  <!-- social widgets removed -->
-
+  <!-- Background image -->
   <div id="background"></div>
 
   <!-- Modern YouTube player -->
   <div id="player"></div>
 
+  <!-- Search wrapper -->
   <div id="search_wrapper">
-
-    <form action="/"
-          id="search"
-          method="POST"
-          onsubmit="submit_search(); return false;"
-          style="display: none;">
-
+    <form id="search" onsubmit="submitSearch(); return false;" style="display:none;">
       <input id="query"
-             name="query"
-             onclick="this.select()"
-             onfocus="disable_keyboard()"
-             onblur="enable_keyboard()"
              type="text"
-             value="slow motion">
-
-      <input id="submit"
-             type="submit"
-             value="Search">
-
+             value="slow motion"
+             onclick="this.select()">
+      <input id="submit" type="submit" value="Search">
     </form>
-
     <div class="clear"></div>
-
   </div>
 
-  <div id="showme"
-       onclick="toggle_search(); return false;">
-    <img alt="Showme"
-         src="images/showme.png">
+  <!-- ShowMe button -->
+  <div id="showme" onclick="toggleSearch(); return false;">
+    <img src="images/showme.png" alt="ShowMe">
   </div>
 
+  <!-- Optional VHX legacy block (hidden by CSS) -->
   <div id="vhx_logo">
-
     <div id="contact">
-      <script type="text/javascript" charset="utf-8">
-        document.write(
-          '<a href="mailto:&#106;&#097;&#109;&#105;&#101;&#064;&#118;&#104;&#120;&#046;&#116;&#118;?&#115;&#117;&#098;&#106;&#101;&#099;&#116;=&#115;&#104;&#111;&#119;&#109;&#101;&#110;&#111;&#110;&#115;&#116;&#111;&#112;&#046;&#099;&#111;&#109;">' +
-          '<img src="http://vhx.tv/images/mail_icon_fff.gif" alt="Email me" title="Email me" />' +
-          '</a>'
-        );
-      </script>
-    </div>
-
-    <div id="logo">
-      <a href="http://vhx.tv" target="_blank">
-        <img src="images/vhx_logo.png"
-             alt="VHX.TV"
-             title="VHX.TV">
+      <a href="mailto:jamie@vhx.tv?subject=showmenonstop.com">
+        <img src="http://vhx.tv/images/mail_icon_fff.gif" alt="Email me" title="Email me">
       </a>
     </div>
-
+    <div id="logo">
+      <a href="http://vhx.tv" target="_blank">
+        <img src="images/vhx_logo.png" alt="VHX.TV" title="VHX.TV">
+      </a>
+    </div>
   </div>
 
-  <!-- Modern YouTube player logic -->
+  <!-- Modern player logic -->
   <script>
-    var player;
+    let player;
 
     function onYouTubeIframeAPIReady() {
       player = new YT.Player('player', {
-        height: '480',
-        width: '853',
-        videoId: "",   // your JS will load videos dynamically
+        videoId: "", // your queue engine will load the first video
         playerVars: {
           autoplay: 1,
           controls: 1,
@@ -96,27 +69,33 @@
           modestbranding: 1
         },
         events: {
-          'onReady': onPlayerReady,
-          'onStateChange': onPlayerStateChange
+          onReady: onPlayerReady,
+          onStateChange: onPlayerStateChange
         }
       });
     }
 
-    function onPlayerReady(event) {
-      // Hook your nonstop playlist engine here
-      // Example: player.loadVideoById(nextVideoId);
+    function onPlayerReady() {
+      // Hook your queue engine here
+      // Example: loadFirstVideo();
     }
 
     function onPlayerStateChange(event) {
       if (event.data === YT.PlayerState.ENDED) {
-        // Example: player.loadVideoById(nextVideoId);
+        // Hook your queue engine here
+        // Example: loadNextVideo();
       }
     }
 
-    // Search form handler (legacy UI preserved)
-    function submit_search() {
-      var q = document.getElementById("query").value;
-      // Your YouTube search + queue logic goes here
+    function submitSearch() {
+      const q = document.getElementById("query").value;
+      // Hook your YouTube search + queue engine here
+      // Example: searchYouTube(q);
+    }
+
+    function toggleSearch() {
+      const form = document.getElementById("search");
+      form.style.display = (form.style.display === "none") ? "block" : "none";
     }
   </script>
 
