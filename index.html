@@ -88,8 +88,11 @@
     }
 
     function submitSearch() {
-      import('/javascripts/search.js').then(module => {
+      import('./javascripts/search.js').then(module => {
         module.submitSearchFromUI();
+
+         // Reveal the player once search results exist
+         document.getElementById("player").style.display = "block";
       });
     }
 
